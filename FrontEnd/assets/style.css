@@ -212,4 +212,23 @@ footer nav ul {
 	color: white;
 }
 
+/* Login Page */
+
+.login-link {
+	text-decoration: none;
+	color: black;
+}
+
+.forget-login {
+	display: flex;
+	justify-content: center;
+	color: black;
+}
+
+#errorMessage {
+	display: none;
+	color: darkred;
+	text-align: center;
+	margin-bottom: 20px;
+}
 
