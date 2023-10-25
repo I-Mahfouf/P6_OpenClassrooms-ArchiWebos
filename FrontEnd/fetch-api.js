@@ -55,6 +55,7 @@ async function getCategories() {
       const categoryId = event.target.id;
       console.log(categoryId);
       filterWorksByCategoryId(categoryId);
+      setActiveFilter(categoryId)
     });
   });
 }
@@ -99,6 +100,17 @@ function displayWork(work) {
 }
 
 //* Fonction d'ajout de la classe "active" *//
+function setActiveFilter(categoryId) {
+  const ButtonsContainer = document.querySelectorAll('.btn');
+  ButtonsContainer.forEach(button => {
+    // Supprime la classe "btn_active" de tous les boutons //
+    button.classList.remove('btn_active');
+    if (button.id === categoryId) {
+      // Ajoute la classe "btn_active" uniquement au bouton actif //
+      button.classList.add('btn_active');
+    }
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   getCategories();
