@@ -9,7 +9,9 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/061f1c17d4.js" crossorigin="anonymous"></script>
 	<script src="/FrontEnd/fetch-api.js"></script>
+	<script src="/FrontEnd/modal.js"></script>
 </head>
 <body>
 <header>
@@ -18,12 +20,18 @@
 		<ul>
 			<li><a class="login-link" href="/FrontEnd/index.html">projets</a></li>
 			<li><a class="login-link" href="#contact">contact</a></li>
-			<li><a class="login-link" href="/FrontEnd/login.html">login</a></li>
+			<li><a id="loginBtn" class="login-link" href="/FrontEnd/login.html">login</a></li>
 			<li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
 		</ul>
 	</nav>
 </header>
 <main>
+<!-- Mode édition -->
+	<div class="mode-edition">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>Mode édition</p>
+	</div>
+<!-- Fin mode édition -->
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
@@ -36,8 +44,29 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div id="edit-mode">
+			<h2>Mes Projets</h2>
+			<!-- Modale "modifier" -->
+			<button class="edit-btn">
+				<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+				<span>modifier</span>
+			</button>
+			<!-- fin de la modale "modifier"  -->
+		</div>
 		<!-- Début de la modale -->
+		<aside>
+			<div class="modal-container">
+				<div class="modal-content">
+					<i class="close fa-solid fa-xmark fa-lg"></i>
+					<h3 class="modal-title">Galerie photo</h3>
+					<div class="modal-gallery">
+						<!-- Afficher les images de la galerie ici -->
+					</div>
+					<hr>
+					<button class="modal-button">Ajouter une photo</button>
+				</div>
+			</div>
+		</aside>
 		<!-- Fin de la modale -->
 		<div id="filter-container"></div>
 		<div class="gallery"></div>

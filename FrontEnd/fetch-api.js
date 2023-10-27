@@ -118,3 +118,55 @@ document.addEventListener("DOMContentLoaded", () => {
   filterWorksByCategoryId("all");
   });
 });
+
+
+//* Mode édition *//
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Vérifie si l'utilisateur est authentifié //
+  const authToken = localStorage.getItem('authToken');
+  const elementsDisplay = document.querySelectorAll(".mode-edition, .edit-btn");
+  const allFilters = document.getElementById("filter-container");
+
+  if (authToken) {
+    // L'utilisateur est authentifié, afficher les éléments "mode-edition" et "edit-btn" //
+    elementsDisplay.forEach(element => {
+      element.style.display = "flex";
+    })
+
+    // Masquer les boutons de filtre //
+    allFilters.style.display = "none";
+  } else {
+    // L'utilisateur n'est pas authentifié, masquer les éléments "mode-edition" et "edit-btn" //
+    elementsDisplay.forEach(element => {
+      element.style.display = "none";
+    })
+
+    // Afficher les boutons de filtre //
+    allFilters.style.display = "flex";
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const loginButton = document.getElementById("loginBtn");
+
+  //* Vérifiez si l'utilisateur est authentifié en vérifiant la présence du token dans le localStorage *//
+  const authToken = localStorage.getItem('authToken');
+
+  //* Si l'utilisateur est authentifié, changez le texte du bouton en "logout" *//
+  if (authToken) {
+      loginButton.textContent = "logout";
+  }
+
+  //* Ajoutez un gestionnaire d'événements pour gérer la connexion/déconnexion *//
+  loginButton.addEventListener("click", function() {
+      // Si l'utilisateur est authentifié, déconnectez-le en supprimant le token du localStorage //
+      if (authToken) {
+          localStorage.removeItem('authToken');
+          loginButton.textContent = "Login"; // Changez le texte en "Login"
+      } else {
+          // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion //
+          window.location.href = "login.html"; 
+      }
+  });
+});
