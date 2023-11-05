@@ -1,7 +1,8 @@
+//* Authentification de l'utilisateur *//
 function authentificationUtl() {
-    const loginForm = document.querySelector(".formulaireUtl");
+    const loginForm = document.querySelector(".userForm");
 
-    loginForm.addEventListener("submit", async function(event) {
+    loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("pass").value;
@@ -29,14 +30,14 @@ function authentificationUtl() {
                 const data = await response.json();
                 if (data.token) {
                     const authToken = data.token;
-                    //* Stockez le token dans le LocalStorage *//
+                    // Stockez le token dans le LocalStorage //
                     localStorage.setItem('authToken', authToken);
                     window.location.href = "index.html";
                 }
             } else {
                 console.error('Erreur');
-                const errorMessage = document.querySelector("#errorMessage");
-                errorMessage.style.display = "block";
+                const messageError = document.querySelector("#messageError");
+                messageError.style.display = "block";
             }
         } catch (error) {
             console.error('Erreur de connexion :', error);
@@ -44,7 +45,7 @@ function authentificationUtl() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     authentificationUtl();
 });
 

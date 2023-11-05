@@ -22,15 +22,18 @@ async function getCategories() {
   const fetchedCategories = await response.json();
   console.table(fetchedCategories);
 
-  const filterContainer = document.querySelector('#filter-container');
+  const filterContainer = document.querySelector('#filterContainer');
   filterContainer.innerHTML = '';
 
-  //* Création du bouton "Tous" *//
+  // Création du bouton "Tous" //
   const allBtn = document.createElement("button");
   allBtn.classList.add("btn");
   allBtn.innerText = "Tous";
   allBtn.id = "all";
   filterContainer.appendChild(allBtn);
+
+  // Appel setActiveFilter avec l'ID "all" pour activer le bouton "tous" par défaut //
+  setActiveFilter("all");
 
   allBtn.addEventListener('click', (event) => {
     const categoryId = event.target.id;
@@ -48,7 +51,6 @@ async function getCategories() {
     filtersBtn.id = category.id;
     filterContainer.appendChild(filtersBtn);
 
-    //* Ajoutez la catégorie à l'ensemble categories *//
     categories.add(category.name);
 
     filtersBtn.addEventListener('click', (event) => {
@@ -63,8 +65,8 @@ async function getCategories() {
 //* Fonction pour filtrer les travaux *//
 function filterWorksByCategoryId(categoryId) {
   console.log(categoryId);
-  
-  gallery = document.querySelector('.gallery'); 
+
+  gallery = document.querySelector('.gallery');
   gallery.innerHTML = '';
 
   if (categoryId == "all") {
@@ -115,29 +117,31 @@ function setActiveFilter(categoryId) {
 document.addEventListener("DOMContentLoaded", () => {
   getCategories();
   getWorks().then(() => {
-  filterWorksByCategoryId("all");
+    filterWorksByCategoryId("all");
+    setActiveFilter('all'); // active le bouton "tous" par défaut //
   });
 });
 
 
 //* Mode édition *//
 
-document.addEventListener("DOMContentLoaded", function() {
+//* Apparition du mode éditon aprés authentification *//
+document.addEventListener("DOMContentLoaded", function () {
   // Vérifie si l'utilisateur est authentifié //
   const authToken = localStorage.getItem('authToken');
-  const elementsDisplay = document.querySelectorAll(".mode-edition, .edit-btn");
-  const allFilters = document.getElementById("filter-container");
+  const elementsDisplay = document.querySelectorAll(".modeEdition-banner, .modifBtn");
+  const allFilters = document.getElementById("filterContainer");
 
   if (authToken) {
-    // L'utilisateur est authentifié, afficher les éléments "mode-edition" et "edit-btn" //
+    // L'utilisateur est authentifié, afficher les éléments "modeEdition-banner" et "modifBtn" //
     elementsDisplay.forEach(element => {
       element.style.display = "flex";
     })
 
-    // Masquer les boutons de filtre //
+    // Masquer les filtres //
     allFilters.style.display = "none";
   } else {
-    // L'utilisateur n'est pas authentifié, masquer les éléments "mode-edition" et "edit-btn" //
+    // L'utilisateur n'est pas authentifié, masquer les éléments "modeEdition-banner" et "modifBtn" //
     elementsDisplay.forEach(element => {
       element.style.display = "none";
     })
@@ -147,26 +151,27 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+//* Mise en place de la déconnexion *//
+document.addEventListener("DOMContentLoaded", function () {
   const loginButton = document.getElementById("loginBtn");
 
-  //* Vérifiez si l'utilisateur est authentifié en vérifiant la présence du token dans le localStorage *//
+  // Vérifiez si l'utilisateur est authentifié en vérifiant la présence du token dans le localStorage //
   const authToken = localStorage.getItem('authToken');
 
-  //* Si l'utilisateur est authentifié, changez le texte du bouton en "logout" *//
+  // Si l'utilisateur est authentifié, changez le texte du bouton en "logout" //
   if (authToken) {
-      loginButton.textContent = "logout";
+    loginButton.textContent = "logout";
   }
 
-  //* Ajoutez un gestionnaire d'événements pour gérer la connexion/déconnexion *//
-  loginButton.addEventListener("click", function() {
-      // Si l'utilisateur est authentifié, déconnectez-le en supprimant le token du localStorage //
-      if (authToken) {
-          localStorage.removeItem('authToken');
-          loginButton.textContent = "Login"; // Changez le texte en "Login"
-      } else {
-          // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion //
-          window.location.href = "login.html"; 
-      }
+  // Ajoutez un gestionnaire d'événements pour gérer la connexion/déconnexion //
+  loginButton.addEventListener("click", function () {
+    // Si l'utilisateur est authentifié, déconnectez-le en supprimant le token du localStorage //
+    if (authToken) {
+      localStorage.removeItem('authToken');
+      loginButton.textContent = "Login"; // Changez le texte en "Login"
+    } else {
+      // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion //
+      window.location.href = "login.html";
+    }
   });
 });
