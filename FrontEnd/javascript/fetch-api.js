@@ -1,9 +1,13 @@
-//* Déclaration des variables *//
-let worksData; //* Stock les données que j'obtiens via l'API *//
-let categories; //* Ensemble pour stocker les catégories *//
-let gallery;
+/* Ètape 1.1 : Récupérer les données de l'API avec Fetch et afficher les travaux */
 
-//* Fonction - Récupération des travaux *//
+//* Déclaration des variables : Trois variables sont déclarées pour stocker les données récupérées depuis l'API *//
+let worksData; // Stock les données que j'obtiens via l'API //
+let categories; // Ensemble pour stocker les catégories //
+let gallery; // Conteneur pour afficher les travaux //
+
+//* Fonction - Récupération des travaux : cette fonction utilise fetch pour récupérer les données des travaux depuis l'API *//
+// Les données sont stockées dans la variable worksData //
+// Ensuite, la fonction affiche ces travaux en appelant une autre fonction displayWork pour chaque travail //
 async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   worksData = await response.json();
@@ -16,7 +20,9 @@ async function getWorks() {
   });
 }
 
-//* Fonction - Récupération des catégories et création des filtres *//
+//* Fonction - Récupération des catégories : cette fonction utilise fetch pour récupérer les catégories des travaux depuis l'API // 
+// Les catégories sont stockées dans la variable fetchedCategories //
+// Ensuite, la fonction prépare un conteneur pour les filtres en sélectionnant l'élément avec l'ID "filterContainer" et le vide //
 async function getCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   const fetchedCategories = await response.json();
@@ -37,13 +43,15 @@ async function getCategories() {
 
   allBtn.addEventListener('click', (event) => {
     const categoryId = event.target.id;
-    console.log(categoryId);
     filterWorksByCategoryId(categoryId);
     setActiveFilter(categoryId);
   });
 
   categories = new Set();
 
+  // La fonction parcourt les catégories récupérées et crée un bouton pour chaque catégorie // 
+  // Elle l'ajoute au conteneur de filtres et ajoute un écouteur d'événements pour filtrer les travaux par catégorie lorsque le bouton est *cliqué* // 
+  // Les catégories sont également stockées dans un ensemble (categories) //
   fetchedCategories.forEach(category => {
     const filtersBtn = document.createElement("button");
     filtersBtn.classList.add("btn");
@@ -54,39 +62,44 @@ async function getCategories() {
     categories.add(category.name);
 
     filtersBtn.addEventListener('click', (event) => {
+      console.log("Affichage des travaux selon la catégorie");
       const categoryId = event.target.id;
-      console.log(categoryId);
       filterWorksByCategoryId(categoryId);
       setActiveFilter(categoryId)
     });
   });
 }
 
-//* Fonction pour filtrer les travaux *//
+/*----------------------------------------------------------------------*/
+
+/* Ètape 1.2 : Créer les filtres */
+
+//* Fonction pour filtrer les travaux : cette fonction filtre les travaux en fonction de la catégorie sélectionnée //
+// Si la catégorie est "all", tous les travaux sont affichés // 
+// Sinon, seuls les travaux appartenant à la catégorie sélectionnée sont affichés //
 function filterWorksByCategoryId(categoryId) {
-  console.log(categoryId);
 
   gallery = document.querySelector('.gallery');
   gallery.innerHTML = '';
 
   if (categoryId == "all") {
-    console.log("all");
+    console.log("Affichage de l'ensemble des travaux");
     worksData.forEach(work => {
       displayWork(work);
     });
   } else {
-    console.log("un autre message");
     worksData.forEach(work => {
       console.log(work);
       if (categoryId == work.categoryId) {
-        console.log("Message erreur");
         displayWork(work);
       }
     });
   }
 }
 
-//* Fonction pour créer les éléments HTML *//
+//* Fonction pour créer les éléments HTML : Cette fonction crée des éléments HTML pour afficher un travail // 
+// Elle utilise les données d'un travail pour créer un élément figure, qui va contenir l'image et la légende // 
+// Puis, elle ajoute cette figure à l'élément de la galerie //
 function displayWork(work) {
   const figureElement = document.createElement('figure');
   const imgElement = document.createElement('img');
@@ -101,7 +114,8 @@ function displayWork(work) {
   gallery.appendChild(figureElement);
 }
 
-//* Fonction d'ajout de la classe "active" *//
+//* Fonction d'ajout de la classe "active" : cette fonction ajoute la classe "btn_active" au bouton actuellement actif // 
+// Elle supprime cette classe de tous les autres boutons. Cela permet de styliser visuellement le bouton actif //
 function setActiveFilter(categoryId) {
   const ButtonsContainer = document.querySelectorAll('.btn');
   ButtonsContainer.forEach(button => {
@@ -114,6 +128,9 @@ function setActiveFilter(categoryId) {
   });
 }
 
+// Cette partie du code utilise un écouteur d'événements pour attendre que le DOM soit entièrement chargé //
+// Une fois le DOM chargé, il appelle les fonctions getCategories et getWorks // 
+// Puis filtre les travaux par catégorie "all" et active le bouton "tous" par défaut //
 document.addEventListener("DOMContentLoaded", () => {
   getCategories();
   getWorks().then(() => {
@@ -122,8 +139,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/*----------------------------------------------------------------------*/
 
-//* Mode édition *//
+//* Ètape 2.2 : Mise en place de la déconnexion *//
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loginButton = document.getElementById("loginBtn");
+
+  // Vérifiez si l'utilisateur est authentifié en vérifiant la présence du token dans le localStorage //
+  const authToken = localStorage.getItem('authToken');
+
+  // Si l'utilisateur est authentifié, changez le texte du bouton en "logout" //
+  if (authToken) {
+    loginButton.textContent = "logout";
+  }
+
+  // Ajoutez un gestionnaire d'événements pour gérer la connexion/déconnexion //
+  loginButton.addEventListener("click", function () {
+    // Si l'utilisateur est authentifié, déconnectez-le en supprimant le token du localStorage //
+    if (authToken) {
+      localStorage.removeItem('authToken');
+      loginButton.textContent = "Login"; // Changez le texte en "Login"
+    } else {
+      // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion //
+      window.location.href = "login.html";
+    }
+  });
+});
+
+/*----------------------------------------------------------------------*/
+
+//* Ètape 3.1 : Le mode édition *//
 
 //* Apparition du mode éditon aprés authentification *//
 document.addEventListener("DOMContentLoaded", function () {
@@ -151,27 +197,3 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//* Mise en place de la déconnexion *//
-document.addEventListener("DOMContentLoaded", function () {
-  const loginButton = document.getElementById("loginBtn");
-
-  // Vérifiez si l'utilisateur est authentifié en vérifiant la présence du token dans le localStorage //
-  const authToken = localStorage.getItem('authToken');
-
-  // Si l'utilisateur est authentifié, changez le texte du bouton en "logout" //
-  if (authToken) {
-    loginButton.textContent = "logout";
-  }
-
-  // Ajoutez un gestionnaire d'événements pour gérer la connexion/déconnexion //
-  loginButton.addEventListener("click", function () {
-    // Si l'utilisateur est authentifié, déconnectez-le en supprimant le token du localStorage //
-    if (authToken) {
-      localStorage.removeItem('authToken');
-      loginButton.textContent = "Login"; // Changez le texte en "Login"
-    } else {
-      // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion //
-      window.location.href = "login.html";
-    }
-  });
-});

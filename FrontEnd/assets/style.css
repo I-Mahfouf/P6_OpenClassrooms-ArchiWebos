@@ -98,6 +98,10 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+a:hover {
+	color: #B1663C;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -123,7 +127,6 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
 .gallery {
 	width: 100%;
@@ -195,7 +198,17 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	padding-right: 107px;
-	margin-top: 305px;
+}
+
+.footerLogin nav ul {
+	height: 60px;
+	background-color: white;
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 107px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 /* Partie des filtres de la page d'accueil */
@@ -246,7 +259,7 @@ footer nav ul {
 
 /* Mode édition de la page d'accueil  */
 
-.modeEdition-banner {
+.modeEdition-banner { 
 	display: none;
 	height: 50px;
 	align-items: center;
@@ -254,9 +267,6 @@ footer nav ul {
 	background-color: black;
 	color: white;
 	gap: 10px;
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: 100%;
 	font-size: 16px;
 	font-weight: 400;
@@ -266,18 +276,19 @@ footer nav ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 2em;
 	gap: 25px;
 }
 
-.modifBtn {
+.modifBtn { 
 	display: none;
-	margin-bottom: 22px;
 	align-items: center;
 	gap: 10px;
 	border: none;
 	background-color: white;
 	cursor: pointer;
 	font-size: 14px;
+	padding: 0;
 }
 
 /* Mode édition - Fenêtre modale */
@@ -286,23 +297,23 @@ footer nav ul {
     width: 100%;
     height: 100%;
 	display: none; /* Display NONE */
-	align-items: center;
-    justify-content: center;
 	position: fixed;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modalContainer-content {
+.modalContainer-content { 
     background-color: #fff;
-    width: 450px; 
+	width: 430px;
+	height: 588px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
     border-radius: 5px;
     text-align: center;
-    position: relative;
-	padding-left: 104px;
-	padding-right: 104px;
-    padding-top: 60px; 
+    position: absolute;
+	padding: 60px 104px 45px 104px;
 }
 
 /* Mode édition - Fenêtre 1 : Galerie et supression */
@@ -323,14 +334,14 @@ footer nav ul {
 .modalGallery-addBtn {
 	border: 2px solid #1D6154;
 	font-family: 'Syne';
+	font-size: 12px;
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	height: 37px;
 	text-align: center;
 	border-radius: 60px;
-	margin-top: 48px;
-	margin-bottom: 54px;
+	margin: 20px auto;
 	padding: 9px 30px 9px 30px;
 	cursor: pointer;
 }
@@ -368,6 +379,7 @@ footer nav ul {
 
 .modalAddworks-title {
 	margin-bottom: 36px;
+	font-size: 26px;
 }
 
 /** Formulaire pour l'ajout d'un travail **/
@@ -381,6 +393,11 @@ footer nav ul {
 
 .addWorkForm-imageAdd {
 	background-color: #E8F1F6;
+	display: flex;
+	justify-content: center;
+}
+
+.addWorkForm-imageAdd_content {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -399,6 +416,11 @@ footer nav ul {
 	display: none;
 }
 
+.inputText {
+	font-size: 12px;
+	color: #444;
+}
+
 /** Style personnalisé pour les boutons de séléction **/
 
 .addWorkForm-imageAdd label {
@@ -413,9 +435,13 @@ footer nav ul {
 .addWorkForm-selectField {
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
-	gap: 20px;
-	margin-top: 10px;
+	gap: 10px;
+	margin-top: 30px;
+}
+
+.addWorkForm-selectField label {
+	display: flex;
+	align-items: start;
 }
 
 .addWorkForm-selectField input {
@@ -444,24 +470,36 @@ footer nav ul {
 .submitDiv {
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 }
 
 .submitBtn {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 14px;
 	width: 237px;
-	border: 2px solid #1D6154;
+	border: 2px solid #A7A7A7;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
+	background-color: #A7A7A7;
 	height: 37px;
 	border-radius: 60px;
-	margin-top: 48px;
-	margin-bottom: 54px;
+	margin: 20px auto;
 	padding: 9px 30px 9px 30px;
 	cursor: pointer;
+}
+
+.submitBtnActive {
+	border: 2px solid #1D6154;
+	background-color: #1D6154;
+}
+
+#fieldError {
+	display: none;
+	color: darkred;
+	text-align: center;
 }
 
 /** Détails des fenêtres modales **/
@@ -485,5 +523,15 @@ footer nav ul {
 }
 
 hr {
-	margin-top: 42px;
+	margin-top: 37px;
+	width: 100%;
+}
+
+.hidden {
+	display: none;
+  }
+
+#imagePreview {
+	display: none;
+	width: 30%;
 }

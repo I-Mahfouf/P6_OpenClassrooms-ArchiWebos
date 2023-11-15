@@ -20,6 +20,12 @@
     <script src="/FrontEnd/javascript/modal.js"></script>
   </head>
   <body>
+    <!-- Bannière du mode édition -->
+    <div class="modeEdition-banner">
+      <i class="fa-regular fa-pen-to-square"></i>
+      <p>Mode édition</p>
+    </div>
+    <!-- Fin de la bannière -->
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
@@ -40,12 +46,6 @@
       </nav>
     </header>
     <main>
-      <!-- Bannière du mode édition -->
-      <div class="modeEdition-banner">
-        <i class="fa-regular fa-pen-to-square"></i>
-        <p>Mode édition</p>
-      </div>
-      <!-- Fin de la bannière -->
       <section id="introduction">
         <figure>
           <img src="./assets/images/sophie-bluel.png" alt="" />
@@ -83,8 +83,8 @@
         <aside class="modalContainer">
           <!-- galerie des images à supprimer/ajouter -->
           <div class="modalContainer-content">
+            <i class="closeIcon fa-solid fa-xmark fa-lg"></i>
             <div class="modalGallery">
-              <i class="closeIcon fa-solid fa-xmark fa-lg"></i>
               <h3 class="modalGallery-title">Galerie photo</h3>
               <div class="modalGallery-gallery">
                 <!-- Afficher les images de la galerie ici -->
@@ -97,31 +97,35 @@
             <div class="modalAddworks">
               <h3 class="modalAddworks-title">Ajout photo</h3>
               <i class="arrowIcon fa-solid fa-arrow-left fa-lg"></i>
-              <i class="closeIcon fa-solid fa-xmark fa-lg"></i>
               <form id="addWorkForm">
                 <div class="addWorkForm-imageAdd">
-                  <i class="imgIcon fa-regular fa-image"></i>
-                  <label for="imageFile">+ Ajouter photo</label>
-                  <input
-                    type="file"
-                    id="imageFile"
-                    name="imageFile"
-                    accept="image/*"
-                    required
-                  />
+                  <img id="imagePreview" src="" alt="Prévisualisation de l'image">
+                  <div class="addWorkForm-imageAdd_content">
+                    <i class="imgIcon fa-regular fa-image"></i>
+                    <label for="imageFile">+ Ajouter photo</label>
+                    <input
+                      type="file"
+                      id="imageFile"
+                      name="imageFile"
+                      accept=".jpg, .png"
+                    />
+                    <p class="inputText">jpg, png : 4mo max</p>
+                  </div>
                 </div>
                 <div class="addWorkForm-selectField">
                   <label for="title">Titre</label>
-                  <input type="text" id="title" name="title" required />
+                  <input type="text" id="title" name="title" />
 
                   <label for="category">Catégorie</label>
-                  <select id="category" name="category" required>
+                  <select id="category" name="category">
                     <option value="Catégorie 1">Objets</option>
                     <option value="Catégorie 2">Appartements</option>
                     <option value="Catégorie 3">Hôtels & Restaurants</option>
                   </select>
                 </div>
+                <hr>
                 <div class="submitDiv">
+                  <p id="fieldError">Veuillez remplir tous les champs correctement</p>
                   <button type="submit" class="submitBtn">Valider</button>
                 </div>
               </form>
