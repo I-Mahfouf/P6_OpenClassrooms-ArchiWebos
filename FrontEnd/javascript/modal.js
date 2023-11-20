@@ -32,16 +32,12 @@ async function getWorksForModal() {
     trashIcon.addEventListener("click", async () => {
       const workIdToDelete = trashIcon.getAttribute('data-workid');
 
-      const deleted = await ApiDeleteWork(workIdToDelete);
-      if (deleted) {
-      }
+      await ApiDeleteWork(workIdToDelete);
     });
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  getWorksForModal();
-});
+document.addEventListener("DOMContentLoaded", getWorksForModal);
 
 //* Faire apparaître les fenêtres modales *//
 //* Lorsqu'on clique sur "modifier" la fenêtre modale apparaît *//
@@ -98,7 +94,7 @@ async function ApiDeleteWork(workId) {
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
       console.error('L-utilisateur n-est pas authentifié. Vous ne pouvez pas supprimer le travail.');
-      return false;
+      return;
     }
 
     // Si l'utilisateur est authentifié, envoi la requête DELETE //
@@ -115,10 +111,8 @@ async function ApiDeleteWork(workId) {
     }
 
     // Suppression réussie //
-    return true;
   } catch (error) {
     console.error('Erreur lors de la requête DELETE :', error);
-    return false;
   }
 }
 
