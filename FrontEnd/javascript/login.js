@@ -33,9 +33,6 @@ function authentificationUtl() {
         };
 
         try {
-            // Tentative de connexion //
-            console.log("Authentification");
-
             // Effectue la requête fetch vers l'API avec les options définies //
             const response = await fetch(apiUrl, options);
 

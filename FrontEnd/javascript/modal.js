@@ -1,4 +1,3 @@
-
 //* Ètape 3.2 : Afficher la fenêtre modale *//
 
 async function getWorksForModal() {
@@ -33,9 +32,77 @@ async function getWorksForModal() {
       const workIdToDelete = trashIcon.getAttribute('data-workid');
 
       await ApiDeleteWork(workIdToDelete);
+      refreshWorks();
     });
   });
 }
+
+/*----------------------------------------------------------------------*/
+
+//* Fonction pour récupérer les données *//
+async function fetchWorksData() {
+  const response = await fetch("http://localhost:5678/api/works");
+  return await response.json();
+}
+
+//* Fonction pour mettre à jour la galerie *//
+async function updateGallery() {
+  const gallery = document.querySelector('.gallery');
+  gallery.innerHTML = '';
+
+  const worksData = await fetchWorksData();
+
+  worksData.forEach(work => {
+    const figureElement = document.createElement('figure');
+    const imgElement = document.createElement('img');
+    imgElement.src = work.imageUrl;
+
+    const figcaptionElement = document.createElement('figcaption');
+    figcaptionElement.textContent = work.title;
+
+    figureElement.appendChild(imgElement);
+    figureElement.appendChild(figcaptionElement);
+
+    gallery.appendChild(figureElement);
+  });
+}
+
+//* Fonction pour mettre à jour la modale *//
+async function updateModal() {
+  const modalGallery = document.querySelector('.modalGallery-gallery');
+  modalGallery.innerHTML = '';
+
+  const worksData = await fetchWorksData();
+
+  worksData.forEach(work => {
+    const modalFigure = document.createElement('figure');
+    modalFigure.classList.add('figureModal');
+
+    const modalImg = document.createElement('img');
+    modalImg.src = work.imageUrl;
+    modalImg.classList.add('classImg');
+
+    const trashIcon = document.createElement('i');
+    trashIcon.classList.add('fa-solid', 'fa-trash-can', 'trashIcon');
+
+    trashIcon.setAttribute('data-workid', work.id);
+
+    modalFigure.appendChild(trashIcon);
+    modalFigure.appendChild(modalImg);
+    modalGallery.appendChild(modalFigure);
+  });
+}
+
+//* Fonction pour rafraîchir la galerie et la modale *//
+async function refreshWorks() {
+  const modalContainer = document.querySelector(".modalContainer");
+  modalContainer.style.display = "none";
+
+  await updateGallery();
+  await updateModal();
+}
+
+/*----------------------------------------------------------------------*/
 
 document.addEventListener("DOMContentLoaded", getWorksForModal);
 
@@ -85,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/*----------------------------------------------------------------------*/
 
 //* Ètape 3.3 : Supprimer les travaux *//
 
@@ -115,6 +183,8 @@ async function ApiDeleteWork(workId) {
     console.error('Erreur lors de la requête DELETE :', error);
   }
 }
+
+/*----------------------------------------------------------------------*/
 
 //* Ètape 3.4 : Ajouter des travaux //
 
@@ -328,7 +398,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ensuite, il récupère le jeton d'authentification à partir du stockage local (localStorage) //
     const authToken = localStorage.getItem('authToken');
 
-    // Puis il appelle la fonction submit(formData). 
-    await submit(formData); // Cette fonction est chargée d'envoyer les données du formulaire à l'API pour l'ajout du travail. //
+    // Puis il appelle la fonction submit(formData) //
+    await submit(formData); // Cette fonction est chargée d'envoyer les données du formulaire à l'API pour l'ajout du travail //
+    refreshWorks();
   });
 });

@@ -11,7 +11,6 @@ let gallery; // Conteneur pour afficher les travaux //
 async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   worksData = await response.json();
-  console.table(worksData);
 
   gallery = document.querySelector('.gallery');
 
@@ -20,13 +19,14 @@ async function getWorks() {
   });
 }
 
+/*----------------------------------------------------------------------*/
+
 //* Fonction - Récupération des catégories : cette fonction utilise fetch pour récupérer les catégories des travaux depuis l'API // 
 // Les catégories sont stockées dans la variable fetchedCategories //
 // Ensuite, la fonction prépare un conteneur pour les filtres en sélectionnant l'élément avec l'ID "filterContainer" et le vide //
 async function getCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   const fetchedCategories = await response.json();
-  console.table(fetchedCategories);
 
   const filterContainer = document.querySelector('#filterContainer');
   filterContainer.innerHTML = '';
@@ -62,7 +62,6 @@ async function getCategories() {
     categories.add(category.name);
 
     filtersBtn.addEventListener('click', (event) => {
-      console.log("Affichage des travaux selon la catégorie");
       const categoryId = event.target.id;
       filterWorksByCategoryId(categoryId);
       setActiveFilter(categoryId)
@@ -83,13 +82,11 @@ function filterWorksByCategoryId(categoryId) {
   gallery.innerHTML = '';
 
   if (categoryId == "all") {
-    console.log("Affichage de l'ensemble des travaux");
     worksData.forEach(work => {
       displayWork(work);
     });
   } else {
     worksData.forEach(work => {
-      console.log(work);
       if (categoryId == work.categoryId) {
         displayWork(work);
       }
