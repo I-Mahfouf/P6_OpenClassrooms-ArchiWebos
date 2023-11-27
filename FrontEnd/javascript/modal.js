@@ -280,7 +280,7 @@ const isImageSelected = (imageFile) => {
 // Fonction pour vérifier si le type d'image est valide (jpg ou png)
 const isImageTypeValid = (imageType) => {
   // Vérifie que le type d'image est jpg ou png
-  if (!['image/jpg', 'image/png'].includes(imageType)) {
+  if (!['image/jpeg', 'image/png'].includes(imageType)) {
     // Affiche un message d'erreur et empêche l'ajout de travail
     displayError('Le fichier doit être en format jpg ou png.');
     return false;
