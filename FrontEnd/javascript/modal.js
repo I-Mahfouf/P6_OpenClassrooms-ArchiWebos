@@ -32,7 +32,7 @@ async function getWorksForModal() {
       const workIdToDelete = trashIcon.getAttribute('data-workid');
 
       await ApiDeleteWork(workIdToDelete);
-      refreshWorks();
+      await refreshWorks();
     });
   });
 }
@@ -246,6 +246,7 @@ const submit = async (formData) => {
   ) {
     // Appelle la fonction pour envoyer la requête POST à l'API
     await apiAddWork("http://localhost:5678/api/works", authToken, formData);
+    await refreshWorks();
   } else {
     // Affiche une erreur si les conditions ne sont pas remplies
     displayError('Erreur lors de la requête POST.');
@@ -400,6 +401,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Puis il appelle la fonction submit(formData) //
     await submit(formData); // Cette fonction est chargée d'envoyer les données du formulaire à l'API pour l'ajout du travail //
-    refreshWorks();
   });
 });
