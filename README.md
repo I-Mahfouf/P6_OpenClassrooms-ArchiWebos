@@ -1,8 +1,4 @@
-# Portfolio-architecte-sophie-bluel
+# Projet 6 - Le portfolio de Sophie Bluel
 
-Code du projet 6 d'intégrateur web.
-
-## Information pour le lancer le code
-
- - Lancer le backend depuis votre terminal en suivant les instruction du fichier ReadMe.
- - Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+![Introduction](https://github.com/I-Mahfouf/P6_OpenClassrooms-ArchiWebos/assets/143210485/063f5154-33c5-4897-9604-5c57119af9fe)
+![Réalisation](https://github.com/I-Mahfouf/P6_OpenClassrooms-ArchiWebos/assets/143210485/278e41ad-85d7-40ae-b0d9-347426eced83)
